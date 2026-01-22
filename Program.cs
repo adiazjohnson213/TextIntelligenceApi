@@ -1,12 +1,24 @@
+using Azure;
+using Azure.AI.TextAnalytics;
+using Microsoft.Extensions.Options;
+using TextIntelligenceApi.Common;
 using TextIntelligenceApi.Contracts.Responses;
 using TextIntelligenceApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Bind configuration settings
+builder.Services.Configure<AzureLanguageOptions>(
+    builder.Configuration.GetSection("Language"));
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddSingleton(sp =>
+{
+    var opt = sp.GetRequiredService<IOptions<AzureLanguageOptions>>().Value;
+    return new TextAnalyticsClient(new Uri(opt.Endpoint), new AzureKeyCredential(opt.ApiKey));
+});
+builder.Services.AddScoped<AzureLanguageClient>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
