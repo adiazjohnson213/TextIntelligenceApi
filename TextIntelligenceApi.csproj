@@ -13,8 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <Folder Include="Contracts\Responses\" />
-    <Folder Include="Contracts\Requests\" />
 	  <Folder Include="Middleware\" />
     <Folder Include="Common\" />
     <Folder Include="Services\AzureLanguage\" />
