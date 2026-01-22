@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using TextIntelligenceApi.Common;
 using TextIntelligenceApi.Contracts.Responses;
 using TextIntelligenceApi.Middleware;
+using TextIntelligenceApi.Services.AzureLanguage;
 
 var builder = WebApplication.CreateBuilder(args);
 
