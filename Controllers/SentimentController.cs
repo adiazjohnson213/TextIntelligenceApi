@@ -1,21 +1,53 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure;
 using Microsoft.AspNetCore.Mvc;
+using TextIntelligenceApi.Contracts.Requests.Sentiment;
+using TextIntelligenceApi.Contracts.Responses;
+using TextIntelligenceApi.Contracts.Responses.Sentiment;
+using TextIntelligenceApi.Middleware;
+using TextIntelligenceApi.Services.AzureLanguage;
 
 namespace TextIntelligenceApi.Controllers
 {
     [ApiController]
     [Route("api/sentiment")]
-    public class SentimentController : Controller
+    public class SentimentController(SentimentAnalysisClient sentimentAnalysisClient) : Controller
     {
-        [HttpPost("detect")]
-        public async Task<IActionResult> Detect()
+        [HttpPost("analyze")]
+        public async Task<IActionResult> Analyze([FromBody] SentimentAnalyzeRequest request, CancellationToken cancellationToken)
         {
-            return View();
+            var correlationId = HttpContext.GetCorrelationId();
+
+            if (request is null)
+            {
+                return BadRequest(ResponseEnvelope<object>.Fail(
+                    new() { new ApiError("VALIDATION_ERROR", "Request body is required.", "request") },
+                    correlationId));
+            }
+
+            if (string.IsNullOrWhiteSpace(request?.Text))
+            {
+                return BadRequest(ResponseEnvelope<object>.Fail(
+                    new() { new ApiError("VALIDATION_ERROR", "Text is required.", "text") },
+                    correlationId));
+            }
+
+            try
+            {
+                var data = await sentimentAnalysisClient.SentimentAnalyzeAsync(request, cancellationToken);
+                return Ok(ResponseEnvelope<SentimentAnalyzeData>.Ok(data, correlationId));
+            }
+            catch (RequestFailedException ex)
+            {
+                return StatusCode(StatusCodes.Status502BadGateway,
+                ResponseEnvelope<object>.Fail(
+                    new() { new ApiError("AZURE_SENTIMENT_ERROR", ex.Message) },
+                    correlationId));
+            }
         }
 
 
-        [HttpPost("detect:batch")]
-        public async Task<IActionResult> DetectBatch()
+        [HttpPost("analyze:batch")]
+        public async Task<IActionResult> AnalyzeBatch()
         {
             return View();
         }

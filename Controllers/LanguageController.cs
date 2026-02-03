@@ -1,8 +1,9 @@
 ﻿using Azure;
 using Azure.AI.TextAnalytics;
 using Microsoft.AspNetCore.Mvc;
-using TextIntelligenceApi.Contracts.Requests;
+using TextIntelligenceApi.Contracts.Requests.Language;
 using TextIntelligenceApi.Contracts.Responses;
+using TextIntelligenceApi.Contracts.Responses.Language;
 using TextIntelligenceApi.Middleware;
 using TextIntelligenceApi.Services.AzureLanguage;
 

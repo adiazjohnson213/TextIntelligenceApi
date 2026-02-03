@@ -1,4 +1,4 @@
-﻿namespace TextIntelligenceApi.Contracts.Requests
+﻿namespace TextIntelligenceApi.Contracts.Requests.Language
 {
     public sealed record DetectLanguageRequest(string Text);
 }

@@ -16,7 +16,6 @@
   <ItemGroup>
 	  <Folder Include="Middleware\" />
     <Folder Include="Common\" />
-    <Folder Include="Services\AzureLanguage\" />
   </ItemGroup>
 
 </Project>

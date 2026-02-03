@@ -1,4 +1,4 @@
-﻿namespace TextIntelligenceApi.Contracts.Responses
+﻿namespace TextIntelligenceApi.Contracts.Responses.Language
 {
     public sealed record DetectLanguageBatchData(List<DetectLanguageBatchResultItem> Items);
 

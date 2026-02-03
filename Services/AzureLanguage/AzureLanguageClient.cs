@@ -1,5 +1,6 @@
 ﻿using Azure.AI.TextAnalytics;
 using TextIntelligenceApi.Contracts.Responses;
+using TextIntelligenceApi.Contracts.Responses.Language;
 
 namespace TextIntelligenceApi.Services.AzureLanguage
 {
