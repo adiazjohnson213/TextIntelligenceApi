@@ -87,7 +87,7 @@ namespace TextIntelligenceApi.Services.AzureLanguage
                     return new SentimentBatchItem(
                         sentimentResult.Id,
                         new SentimentAnalyzeData(
-                            Sentiment: documentSentiment.ToString(),
+                            Sentiment: documentSentiment.Sentiment.ToString(),
                             ConfidenceScores: new SentimentConfidenceScores(
                                 Positive: documentSentiment.ConfidenceScores.Positive,
                                 Neutral: documentSentiment.ConfidenceScores.Neutral,

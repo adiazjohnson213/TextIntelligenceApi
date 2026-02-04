@@ -20,6 +20,7 @@ builder.Services.AddSingleton(sp =>
     return new TextAnalyticsClient(new Uri(opt.Endpoint), new AzureKeyCredential(opt.ApiKey));
 });
 builder.Services.AddScoped<AzureLanguageClient>();
+builder.Services.AddScoped<SentimentAnalysisClient>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

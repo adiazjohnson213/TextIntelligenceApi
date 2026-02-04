@@ -47,9 +47,36 @@ namespace TextIntelligenceApi.Controllers
 
 
         [HttpPost("analyze:batch")]
-        public async Task<IActionResult> AnalyzeBatch()
+        public async Task<IActionResult> AnalyzeBatch([FromBody] SentimentAnalyzeBatchRequest request, CancellationToken cancellationToken)
         {
-            return View();
+            var correlationId = HttpContext.GetCorrelationId();
+
+            if (request is null)
+            {
+                return BadRequest(ResponseEnvelope<object>.Fail(
+                    new() { new ApiError("VALIDATION_ERROR", "Request body is required.", "request") },
+                    correlationId));
+            }
+
+            if (request.Documents is null || request.Documents.Count == 0)
+            {
+                return BadRequest(ResponseEnvelope<object>.Fail(
+                    new() { new ApiError("VALIDATION_ERROR", "Documents is required and must not be empty.", "documents") },
+                    correlationId));
+            }
+
+            try
+            {
+                var data = await sentimentAnalysisClient.SentimentAnalyzeBatchAsync(request, cancellationToken);
+                return Ok(ResponseEnvelope<SentimentAnalyzeBatchData>.Ok(data, correlationId));
+            }
+            catch (RequestFailedException ex)
+            {
+                return StatusCode(StatusCodes.Status502BadGateway,
+                    ResponseEnvelope<object>.Fail(
+                        new() { new ApiError("AZURE_SENTIMENT_ERROR", ex.Message) },
+                        correlationId));
+            }
         }
     }
 }
