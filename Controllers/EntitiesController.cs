@@ -46,7 +46,7 @@ namespace TextIntelligenceApi.Controllers
         }
 
 
-        [HttpPost("extract:batch")]
+        [HttpPost("extract/batch")]
         public async Task<IActionResult> ExtractBatch([FromBody] EntitiesExtractBatchRequest request, CancellationToken cancellationToken)
         {
             var correlationId = HttpContext.GetCorrelationId();

@@ -46,7 +46,7 @@ namespace TextIntelligenceApi.Controllers
         }
 
 
-        [HttpPost("analyze:batch")]
+        [HttpPost("analyze/batch")]
         public async Task<IActionResult> AnalyzeBatch([FromBody] SentimentAnalyzeBatchRequest request, CancellationToken cancellationToken)
         {
             var correlationId = HttpContext.GetCorrelationId();

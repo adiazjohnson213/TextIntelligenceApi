@@ -40,7 +40,7 @@ namespace TextIntelligenceApi.Controllers
         }
 
 
-        [HttpPost("detect:batch")]
+        [HttpPost("detect/batch")]
         public async Task<IActionResult> DetectBatch([FromBody] DetectLanguageBatchRequest request, CancellationToken cancellationToken)
         {
             var cid = HttpContext.GetCorrelationId();
