@@ -46,10 +46,37 @@ namespace TextIntelligenceApi.Controllers
         }
 
 
-        [HttpPost("detect:batch")]
-        public async Task<IActionResult> DetectBatch()
+        [HttpPost("extract:batch")]
+        public async Task<IActionResult> ExtractBatch([FromBody] EntitiesExtractBatchRequest request, CancellationToken cancellationToken)
         {
-            return View();
+            var correlationId = HttpContext.GetCorrelationId();
+
+            if (request is null)
+            {
+                return BadRequest(ResponseEnvelope<object>.Fail(
+                    new() { new ApiError("VALIDATION_ERROR", "Request body is required.", "request") },
+                    correlationId));
+            }
+
+            if (request.Documents is null || request.Documents.Count == 0)
+            {
+                return BadRequest(ResponseEnvelope<object>.Fail(
+                    new() { new ApiError("VALIDATION_ERROR", "Documents is required and must not be empty.", "documents") },
+                    correlationId));
+            }
+
+            try
+            {
+                var data = await entitiesRecognitionClient.ExtractBatchAsync(request, cancellationToken);
+                return Ok(ResponseEnvelope<EntitiesExtractBatchResponse>.Ok(data, correlationId));
+            }
+            catch (RequestFailedException ex)
+            {
+                return StatusCode(StatusCodes.Status502BadGateway,
+                    ResponseEnvelope<object>.Fail(
+                        new() { new ApiError("AZURE_ENTITIES_ERROR", ex.Message) },
+                        correlationId));
+            }
         }
     }
 }
