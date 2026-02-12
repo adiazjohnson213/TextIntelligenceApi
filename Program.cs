@@ -22,6 +22,7 @@ builder.Services.AddSingleton(sp =>
 builder.Services.AddScoped<AzureLanguageClient>();
 builder.Services.AddScoped<SentimentAnalysisClient>();
 builder.Services.AddScoped<KeyPhrasesClient>();
+builder.Services.AddScoped<EntitiesRecognitionClient>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
