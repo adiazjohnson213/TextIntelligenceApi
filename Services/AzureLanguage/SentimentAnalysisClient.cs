@@ -72,7 +72,7 @@ namespace TextIntelligenceApi.Services.AzureLanguage
                         return new SentimentBatchItem(
                             Id: sentimentResult.Id,
                             Result: null,
-                            Errors: new List<Contracts.Responses.ApiError>
+                            Errors: new()
                             {
                                 new Contracts.Responses.ApiError(
                                     Code: sentimentResult.Error.ErrorCode.ToString(),
