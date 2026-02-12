@@ -142,10 +142,9 @@ dotnet watch run
   ]
 }
 ```
-
 ### Sentiment Analysis
 - `POST /api/sentiment/extract`
-- (Optional/Planned) `POST /api/sentiment/extract/batch`
+- `POST /api/sentiment/extract/batch`
 
 **Single request**
 ```json
@@ -155,14 +154,37 @@ dotnet watch run
 }
 ```
 
+**Batch request**
+```json
+{
+    "documents": [
+      { "id": "1", "text": "I love this!", "language": "en" },
+      { "id": "2", "text": "This is terrible. I want a refund.", "language": "en" },
+      { "id": "3", "text": "", "language": "en" }
+    ],
+    "defaultLanguage": "en",
+    "includeOpinionMining": false
+}
+```
+
 ### Language Detection
 - `POST /api/language/detect`
-- (Optional/Planned) `POST /api/language/detect/batch`
+- `POST /api/language/detect/batch`
 
 **Single request**
 ```json
 {
   "text": "Bonjour, je voudrais réserver un hôtel à Montréal."
+}
+```
+
+**Batch request**
+```json
+{
+  "items": [
+    { "id": "1", "text": "Hello world" },
+    { "id": "2", "text": "Hola mundo" }
+  ]
 }
 ```
 
